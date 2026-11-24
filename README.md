@@ -1,16 +1,21 @@
 # AI Industry Labs
 
-四个行业、四个能跑起来的 AI 产品原型。不是 PPT，也不是“调个 API 的 demo”——每个产品都有明确的行业问题、可复现的输入输出、单元测试和一份说清边界的 README。
+四个行业、四个**独立仓库**、四个能跑起来的 AI 产品原型。不是 PPT，也不是“调个 API 的 demo”——每个仓库都有明确的行业问题、可复现的输入输出、单元测试、行业调研与架构文档，以及一份说清边界的 README。
 
-```
-products/
-├── clinote/          医疗：中文病历结构化 + 可溯源质控
-├── shorts-factory/   短视频：选题 → 分镜 → 字幕/多平台 → 合规 → 样片
-├── support-copilot/  AI 客服：可溯源回答 + 该转人工就转 + 会话质检
-└── driveloop/        智能驾驶：长尾场景挖掘 → 场景卡 → OSC → 回归门禁
-```
+> 本仓库现在是**总览与索引**。四个产品已在 2026-11 拆分为独立仓库，日常迭代请看分仓；`products/` 保留为历史快照，不再作为主开发位置。
 
-## 四个产品，四种“AI 该干的活”
+## 四个仓库
+
+| 仓库 | 行业 | 一句话 | 验证 |
+| --- | --- | --- | --- |
+| [**clinote**](https://github.com/lyuyang0825-source/clinote) | 医疗 | 中文病历结构化 + 可溯源质控；每条问题都能回到原文 | 12 tests，3 份样例 |
+| [**shorts-factory**](https://github.com/lyuyang0825-source/shorts-factory) | 短视频 | 选题→钩子→分镜→字幕→多平台→合规→样片 | 13 tests，60s/30s 两条样片 |
+| [**support-copilot**](https://github.com/lyuyang0825-source/support-copilot) | AI 客服 | 可溯源回答、该转人工就转、交接不重复问 | 20 tests，10 条决策评测 |
+| [**driveloop**](https://github.com/lyuyang0825-source/driveloop) | 智能驾驶 | 长尾场景挖掘 → 场景卡 → OSC → 回归门禁 | 13 tests，6 场景 + 门禁 |
+
+四个仓库合计 **58 个单元测试**，每个仓库都带 GitHub Actions，推上去就能跑。
+
+## 各自解决什么
 
 | 产品 | 行业核心问题 | 产品做的事 | 不做的事 |
 | --- | --- | --- | --- |
@@ -21,74 +26,49 @@ products/
 
 共同点：**都选“脏活、累活、必须可追溯的活”**，而不是再做一个聊天框。
 
-## 快速开始
-
-要求：Python 3.10+。短视频样片渲染额外需要 `ffmpeg` 与 Pillow（`pip install pillow`），其他产品零第三方依赖。
-
-```bash
-git clone <this-repo> && cd ai-industry-labs
-
-# 一次跑完四个 demo
-bash scripts/run_all_demos.sh
-
-# 或分别跑
-cd products/clinote        && python3 -m clinote.cli -i samples/outpatient_zh_01.txt --out-dir demo_out
-cd products/shorts_factory && python3 -m shorts_factory.cli --brief samples/brief_zh_01.json --out-dir demo_out --render
-cd products/support_copilot && python3 -m support_copilot.cli --demo
-cd products/driveloop      && python3 -m driveloop.cli --demo
-```
-
-跑测试：
-
-```bash
-make test          # 四个产品全部单测（52 个）
-```
-
-## 每个产品都已跑通
-
-| 产品 | 单测 | demo 结果 |
-| --- | --- | --- |
-| clinote | 10 passed | 规范样例阻断 0 / 重要 3 / 提示 3；问题样例正确报出缺段落、缺频次 |
-| shorts-factory | 11 passed | 19 镜 / 60.0s / 口播 260 字 / 口播密度 4.3 字/秒；720×1280 样片与 1080×1440 封面 |
-| support-copilot | 18 passed | 6 条对话：2 条直答、3 条带人工确认、1 条拒答；规范会话 100 分、问题会话 10 分 |
-| driveloop | 13 passed | 6 个场景卡 + 6 份 OSC + 回归门禁 block（2 fail / 4 pass） |
-
-产物都在各产品 `demo_out/` 下，可直接打开 `report.html`、`storyboard.md`、`demo.md` 查看。
-
-## 设计原则
+## 共同设计原则
 
 1. **可溯源优先于流畅**。每条结论都要能回到原文/知识条目/日志帧；找不到依据就拒答或转人工。
-2. **会认怂**。置信度不足、涉及资金/安全/诊断，一律交人，并带上“已经问过什么”，不让用户重复陈述。
-3. **规则先行，模型可插**。四个产品都能纯规则跑通，模型是增强项而不是单点依赖；这样才可测试、可回归、可解释。
-4. **产物要能派活**。场景卡给标注员、工单给客服、分镜给剪辑、质控清单给医生——不是只输出一段漂亮话。
+2. **会认怂**。置信度不足、涉及资金/安全/诊断，一律交人，并带上“已经问过什么”。
+3. **规则先行，模型可插**。四个产品都能纯规则跑通，模型是增强项而不是单点依赖。
+4. **产物要能派活**。场景卡给标注员、工单给客服、分镜给剪辑、质控清单给医生。
 5. **合成数据只用来演示链路**，不用于证明效果；真实指标必须用真实数据重跑。
 
-## 目录结构
+## 行业文档
 
-```
-ai-industry-labs/
-├── docs/                       # 四个行业的调研与产品方向
-│   ├── 01-healthcare.md
-│   ├── 02-short-video.md
-│   ├── 03-support.md
-│   └── 04-driving.md
-├── products/
-│   ├── clinote/                # 医疗文书质控
-│   ├── shorts-factory/         # 短视频生产流水线
-│   ├── support-copilot/        # 客服副驾驶
-│   └── driveloop/              # 智驾长尾场景
-├── scripts/run_all_demos.sh
-├── .github/workflows/ci.yml
-├── Makefile
-└── LICENSE (MIT)
+| 文档 | 内容 |
+| --- | --- |
+| [01-healthcare.md](docs/01-healthcare.md) | 医生工时、AI 病历幻觉、结构化与质控方向 |
+| [02-short-video.md](docs/02-short-video.md) | 微短剧供给过剩、成本结构、钩子与合规 |
+| [03-support.md](docs/03-support.md) | AI 客服投诉、人机协同国标、质检指标 |
+| [04-driving.md](docs/04-driving.md) | 数据可用率、标注成本、长尾挖掘与回归 |
+
+每个分仓里还有更细的 `docs/industry.md`（行业篇）与 `docs/architecture.md`（架构与设计取舍）。
+
+## 本地运行
+
+总览仓库保留了一份可直接跑的历史快照：
+
+```bash
+git clone https://github.com/lyuyang0825-source/ai-industry-labs.git
+cd ai-industry-labs
+bash scripts/run_all_demos.sh
+make test
 ```
 
-每个产品目录内都是同样的骨架：`<pkg>/`（源码）、`samples|data/`（输入）、`tests/`（单测）、`demo_out/`（跑出来的产物）、`README.md`。
+日常使用请直接克隆对应分仓：
+
+```bash
+git clone https://github.com/lyuyang0825-source/clinote.git
+git clone https://github.com/lyuyang0825-source/shorts-factory.git
+git clone https://github.com/lyuyang0825-source/support-copilot.git
+git clone https://github.com/lyuyang0825-source/driveloop.git
+```
 
 ## 边界
 
 - 四个产品都是**原型**，不是生产系统：没有账号体系、没有并发与持久化、没有对接真实 HIS/客服平台/车端链路。
-- 医疗产品**不是医疗器械**，不提供诊断建议；客服产品不替代人工最终确认；智驾产品不构成安全认证。
+- 医疗产品**不是医疗器械**；客服产品不替代人工最终确认；智驾产品不构成安全认证。
 - 仓库内所有样例均为合成或脱敏数据，不含真实患者信息、真实用户对话、真实车辆轨迹。
 
 ## License
