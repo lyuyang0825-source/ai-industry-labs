@@ -2,7 +2,7 @@
 
 四个行业、四个**独立仓库**、四个能跑起来的 AI 产品原型。不是 PPT，也不是“调个 API 的 demo”——每个仓库都有明确的行业问题、可复现的输入输出、单元测试、行业调研与架构文档，以及一份说清边界的 README。
 
-> 本仓库现在是**总览与索引**。四个产品已在 2026-11 拆分为独立仓库，日常迭代请看分仓；`products/` 保留为历史快照，不再作为主开发位置。
+> 本仓库现在是**纯索引入口**。四个产品已在 2026-11 拆分为独立仓库，日常迭代与代码评审都去分仓；本仓库只保留行业总览文档与索引，历史完整快照打在 tag `monorepo-archive` 上。
 
 ## 四个仓库
 
@@ -47,16 +47,7 @@
 
 ## 本地运行
 
-总览仓库保留了一份可直接跑的历史快照：
-
-```bash
-git clone https://github.com/lyuyang0825-source/ai-industry-labs.git
-cd ai-industry-labs
-bash scripts/run_all_demos.sh
-make test
-```
-
-日常使用请直接克隆对应分仓：
+本仓库已收敛为纯索引，不再保留可运行的代码副本（完整历史快照见 tag `monorepo-archive`）。请直接克隆对应分仓：
 
 ```bash
 git clone https://github.com/lyuyang0825-source/clinote.git
