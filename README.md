@@ -10,10 +10,10 @@
 | --- | --- | --- | --- |
 | [**clinote**](https://github.com/lyuyang0825-source/clinote) | 医疗 | 中文病历结构化 + 可溯源质控；每条问题都能回到原文 | 12 tests，3 份样例 |
 | [**shorts-factory**](https://github.com/lyuyang0825-source/shorts-factory) | 短视频 | 选题→钩子→分镜→字幕→多平台→合规→样片 | 13 tests，60s/30s 两条样片 |
-| [**support-copilot**](https://github.com/lyuyang0825-source/support-copilot) | AI 客服 | 可溯源回答、该转人工就转、交接不重复问 | 20 tests，10 条决策评测 |
+| [**support-copilot**](https://github.com/lyuyang0825-source/support-copilot) | AI 客服 | 可溯源回答、该转人工就转、交接不重复问；可选开源模型只润色措辞 | 30 tests，200 条决策评测 |
 | [**driveloop**](https://github.com/lyuyang0825-source/driveloop) | 智能驾驶 | 长尾场景挖掘 → 场景卡 → OSC → 回归门禁 | 13 tests，6 场景 + 门禁 |
 
-四个仓库合计 **58 个单元测试**，每个仓库都带 GitHub Actions，推上去就能跑。
+四个仓库合计 **68 个单元测试**，每个仓库都带 GitHub Actions，推上去就能跑。
 
 ## 各自解决什么
 
